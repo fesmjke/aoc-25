@@ -1,5 +1,7 @@
 pub mod day;
-pub mod days {}
+pub mod days {
+    mod secret_entrance;
+}
 
 pub mod helpers {
     pub mod algs;
