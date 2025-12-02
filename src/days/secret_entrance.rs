@@ -71,8 +71,30 @@ impl Day for SecretEntrance {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
-        -1
+        let mut dial = 50;
+        let mut count = 0;
+
+        for &(turn, clicks) in input.iter() {
+            let old_dial = dial;
+            count += clicks / 100; // add crossed by N cycles
+
+            match turn {
+                Turn::Left => dial -= clicks % 100, // ensure that we are have clicks in range of 0 - 100
+                Turn::Right => dial += clicks % 100,
+            };
+
+            if dial <= 0 || dial >= 100 {
+                if old_dial != 0 {
+                    // ensure that we are not at 0
+                    count += 1
+                }
+
+                dial = dial.rem_euclid(100);
+            }
+        }
+
+        count
     }
 }
 
-aoc_test!(SecretEntrance, "day1", 3, 0, 1145, 0);
+aoc_test!(SecretEntrance, "day1", 3, 6, 1145, 6561);
