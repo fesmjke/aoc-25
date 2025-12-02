@@ -33,6 +33,23 @@ impl GiftShop {
     pub fn equal_parts(left: &str, right: &str) -> bool {
         left == right
     }
+
+    pub fn contains_repeated(num: u64) -> bool {
+        let digit = num.to_string();
+        let digit_len = digit.len();
+
+        let mut found = false;
+
+        for i in (0..(digit_len / 2)).rev() {
+            let repeated_count = digit.match_indices(&digit[..=i]).count();
+
+            if repeated_count * digit[..=i].len() == digit_len {
+                found = true
+            }
+        }
+
+        found
+    }
 }
 
 impl Day for GiftShop {
@@ -71,8 +88,27 @@ impl Day for GiftShop {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
-        -1
+        let mut count = 0;
+        for range in input {
+            let ns = range.end - range.start;
+
+            for i in 0..=ns {
+                let sq = GiftShop::contains_repeated(range.start.add(i));
+
+                if sq {
+                    count += range.start + i;
+                }
+            }
+        }
+        count
     }
 }
 
-aoc_test!(GiftShop, "day2", 1227775554, 0, 0, 0);
+aoc_test!(
+    GiftShop,
+    "day2",
+    1227775554,
+    4174379265 as u64,
+    23534117921 as u64,
+    31755323497 as u64
+);
