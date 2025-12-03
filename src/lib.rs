@@ -1,6 +1,7 @@
 pub mod day;
 pub mod days {
     mod gift_shop;
+    mod lobby;
     mod secret_entrance;
 }
 
