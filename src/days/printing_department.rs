@@ -64,8 +64,34 @@ impl Day for PrintingDepartment {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
-        -1
+        let mut count = 0;
+
+        let mut input = input.clone();
+
+        loop {
+            let mut checked = vec![];
+            let mut local_count = 0;
+            for (y, line) in input.iter().enumerate() {
+                for (x, ch) in line.iter().enumerate() {
+                    if PrintingDepartment::check_adjacent(&input, y, x, 4) && *ch == '@' {
+                        local_count += 1;
+                        checked.push((y, x));
+                    }
+                }
+            }
+
+            for &(y, x) in checked.iter() {
+                input[y][x] = 'x';
+            }
+
+            if local_count == 0 {
+                break;
+            } else {
+                count += local_count;
+            }
+        }
+        count
     }
 }
 
-aoc_test!(PrintingDepartment, "day4", 13, 0, 1393, 0);
+aoc_test!(PrintingDepartment, "day4", 13, 43, 1393, 8643);
