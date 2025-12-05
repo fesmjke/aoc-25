@@ -32,7 +32,7 @@ impl Day for Cafeteria {
 
         'ids_loop: for id in ids.iter() {
             for (range_start, range_end) in ranges.iter() {
-                let range = range_start..range_end;
+                let range = range_start..=range_end;
 
                 if range.contains(&id) {
                     count += 1;
@@ -45,8 +45,34 @@ impl Day for Cafeteria {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
-        -1
+        let (ranges, _) = input;
+        let mut count = 0;
+
+        let mut t_ranges = ranges.clone();
+
+        t_ranges.sort_by_key(|x| x.0);
+        let mut merged: Vec<(u128, u128)> = Vec::new();
+
+        for (start, end) in t_ranges {
+            if let Some(last) = merged.last_mut() {
+                if start <= last.1 {
+                    last.1 = last.1.max(end);
+                } else {
+                    merged.push((start, end));
+                }
+            } else {
+                merged.push((start, end));
+            }
+        }
+
+        for (range_start, range_end) in merged.into_iter() {
+            let range = range_start..=range_end;
+
+            count += range.count();
+        }
+
+        count
     }
 }
 
-aoc_test!(Cafeteria, "day5", 3, 0, 726, 0);
+aoc_test!(Cafeteria, "day5", 3, 14, 726, 0);
