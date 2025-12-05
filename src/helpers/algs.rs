@@ -18,6 +18,30 @@ pub fn lcmm(numbers: &Vec<u64>) -> u64 {
     numbers.iter().copied().reduce(lcm).unwrap_or(1)
 }
 
+// https://www.rishabhxchoudhary.com/blog/overlapping-interval-problems
+/// Merge intervals that overlap with each other into a consolidated set of non-overlapping intervals
+pub fn merge_overlapping_ranges<T: PartialOrd + Ord + Copy>(ranges: Vec<(T, T)>) -> Vec<(T, T)> {
+    let mut ranges = ranges.clone();
+
+    ranges.sort_by_key(|interval| interval.0);
+
+    let mut merged: Vec<(T, T)> = Vec::new();
+
+    for &(start, end) in ranges.iter() {
+        if let Some(last) = merged.last_mut() {
+            if start <= last.1 {
+                last.1 = last.1.max(end);
+            } else {
+                merged.push((start, end));
+            }
+        } else {
+            merged.push((start, end));
+        }
+    }
+
+    merged
+}
+
 #[cfg(test)]
 mod algs_tests {
     use super::*;
