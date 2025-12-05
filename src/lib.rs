@@ -1,5 +1,6 @@
 pub mod day;
 pub mod days {
+    mod cafeteria;
     mod gift_shop;
     mod lobby;
     mod printing_department;
