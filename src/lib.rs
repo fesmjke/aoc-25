@@ -5,6 +5,7 @@ pub mod days {
     mod lobby;
     mod printing_department;
     mod secret_entrance;
+    mod trash_compactor;
 }
 
 pub mod helpers {
