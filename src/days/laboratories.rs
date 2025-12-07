@@ -2,6 +2,8 @@ use crate::{aoc_test, day::Day};
 
 struct Laboratories;
 
+impl Laboratories {}
+
 impl Day for Laboratories {
     type Input = Vec<String>;
 
@@ -62,8 +64,27 @@ impl Day for Laboratories {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
+        let start_position = input[0].len() / 2;
+        let beam_start = (1, start_position);
+        let cols = input.len();
+        let rows = input[0].len();
+
+        let mut matrix = vec![vec![0u32; rows]; cols];
+
+        matrix[beam_start.0][beam_start.1] = 1;
+
+        for (i, line) in input.iter().enumerate() {
+            for (j, ch) in line.chars().enumerate() {
+                match ch {
+                    '^' => matrix[i][j - 1] = matrix[i - 1][j] + 1,
+                    '.' => {}
+                    _ => {}
+                }
+            }
+        }
+
         -1
     }
 }
 
-aoc_test!(Laboratories, "day7", 21, 0, 1562, 0);
+aoc_test!(Laboratories, "day7", 21, 40, 1562, 0);
