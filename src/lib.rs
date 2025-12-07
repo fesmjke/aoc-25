@@ -2,6 +2,7 @@ pub mod day;
 pub mod days {
     mod cafeteria;
     mod gift_shop;
+    mod laboratories;
     mod lobby;
     mod printing_department;
     mod secret_entrance;
