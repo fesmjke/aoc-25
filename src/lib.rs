@@ -4,6 +4,7 @@ pub mod days {
     mod gift_shop;
     mod laboratories;
     mod lobby;
+    mod playground;
     mod printing_department;
     mod secret_entrance;
     mod trash_compactor;
