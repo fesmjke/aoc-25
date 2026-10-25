@@ -120,8 +120,36 @@ impl Day for Playground {
     }
 
     fn part_b(input: &Self::Input) -> impl std::fmt::Display {
-        -1
+        let length = input.len();
+        let mut distances = vec![];
+
+        for i in 0..length - 1 {
+            for j in i + 1..length {
+                let d = input[i].distance(&input[j]);
+
+                distances.push((d, i, j));
+            }
+        }
+        distances.sort_by(|a, b| a.partial_cmp(&b).unwrap());
+
+        let mut disjointset = DisjointSet::new(length);
+
+        let mut counter = 0;
+        let mut answer = 0;
+        for (_, i, j) in distances.into_iter() {
+            if disjointset.find(i) != disjointset.find(j) {
+                disjointset.union(i, j);
+                counter += 1;
+
+                if counter == length - 1 {
+                    answer = input[i].x * input[j].x;
+                    break;
+                }
+            }
+        }
+
+        answer
     }
 }
 
-aoc_test!(Playground, "day8", 40, 131580, 0, 0);
+aoc_test!(Playground, "day8", 40, 131580, 25272, 6844224);
